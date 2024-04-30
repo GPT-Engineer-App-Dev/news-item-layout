@@ -1,4 +1,5 @@
-import { Box, Flex, Text, Heading, VStack, Link } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Flex, Text, Heading, VStack, Link, Input } from '@chakra-ui/react';
 
 const newsItems = [
   { id: 1, title: "Y Combinator Creates New AI Safety Initiative", author: "johndoe", comments: 15 },
@@ -7,11 +8,20 @@ const newsItems = [
 ];
 
 const Index = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredNewsItems = newsItems.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
   return (
     <Box p={5}>
       <Heading mb={4}>Hacker News Clone</Heading>
+      <Input
+        placeholder="Search news by title..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        mb={4}
+      />
       <VStack spacing={4} align="stretch">
-        {newsItems.map(item => (
+        {filteredNewsItems.map(item => (
           <Box key={item.id} p={4} shadow="md" borderWidth="1px">
             <Flex justifyContent="space-between">
               <Link href="#" color="teal.500" fontWeight="bold">{item.title}</Link>
